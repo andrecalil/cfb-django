@@ -27,7 +27,7 @@ The project is divided into two main parts:
 
 1. **Clone the repository:**
     ```
-    git clone https://github.com/yourusername/your-repo.git
+    git clone https://github.com/andrecalil/cfb-django.git
     cd your-repo
     ```
 

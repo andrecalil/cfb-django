@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import viteLogo from './assets/vite.svg'
 import './styles/App.css'
+import useStores from './hooks/useStores'
 
 function App() {
   const [count, setCount] = useState(0)
+  const { data: stores } = useStores();
 
   return (
     <>
@@ -25,9 +27,12 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {stores?.map((store) => (
+        <div key={store.id}>
+          <h2>{store.name}</h2>
+          <p>{store.state}</p>
+        </div>
+      ))}
     </>
   )
 }
