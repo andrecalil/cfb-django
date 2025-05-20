@@ -14,7 +14,7 @@ services:
     container_name: cfb-django-container
     env_file: .env.docker
     ports:
-      - 8000:8000
+      - 2005:8000
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
