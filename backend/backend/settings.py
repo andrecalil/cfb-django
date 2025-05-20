@@ -28,12 +28,12 @@ SUPABASE_KEY = env("SUPABASE_KEY")
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@td=6lrk03^)ombk3r^@za0iev069nzw)st4=wzt0^8xo^oz0+'
+SECRET_KEY = SECRET_KEY = os.environ.get("SECRET_KEY", default='django-insecure-@td=6lrk03^)ombk3r^@za0iev069nzw)st4=wzt0^8xo^oz0+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS",'localhost,127.0.0.1,[::1],0.0.0.0').split(",")
 
 # Application definition
 
@@ -50,12 +50,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'react',
 ]
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,9 +74,11 @@ ROOT_URLCONF = 'backend.urls'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'assets/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/assets/'
+STATIC_ROOT = os.path.join(BASE_DIR.parent, 'staticfiles')
+STATIC_ASSETS_DIR = os.path.join(BASE_DIR.parent, 'staticfiles/assets')
 STATICFILES_DIRS = [
+    STATIC_ASSETS_DIR,
     os.path.join(BASE_DIR.parent, 'frontend/dist'),
 ]
 
@@ -95,8 +97,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
 
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -125,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
